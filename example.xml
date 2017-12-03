@@ -1,0 +1,22 @@
+<root>
+    <CommonStruct>
+        <Struct name="item", sep=":">
+            <base name="id", type="int"/>
+            <base name="count", type="int"/>
+        </Struct>
+    </CommonStruct>
+    <Export>
+        <RowTable name="", excel="", sheet="">
+            <key index="" type=""/>
+            <base name="" index="" type=""/>
+            <list name="" index="" type="" sep=""/>
+            <mixlist name="" type="" >
+                <item index=""/>
+            </mixlist>
+            <mix name="" type="">
+                <item index=""/>
+            </mix>
+            <map name="" index="" keytype="" valuetype="" sep="" kvsep=""/>
+        </RowTable>
+    </Export>
+</root>
