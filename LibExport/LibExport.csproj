@@ -40,16 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExportType\Entity\StructEntity.cs" />
+    <Compile Include="ExportType\Entity\StructFieldEntity.cs" />
     <Compile Include="ExportType\ExportRoot.cs" />
-    <Compile Include="ExportType\FieldType\BaseField.cs" />
-    <Compile Include="ExportType\FieldType\KeyField.cs" />
-    <Compile Include="ExportType\FieldType\ListField.cs" />
-    <Compile Include="ExportType\FieldType\MapField.cs" />
-    <Compile Include="ExportType\FieldType\MixField.cs" />
-    <Compile Include="ExportType\FieldType\MixItem.cs" />
-    <Compile Include="ExportType\FieldType\MixListField.cs" />
     <Compile Include="ExportType\StructType.cs" />
     <Compile Include="ExportType\RowTable.cs" />
+    <Compile Include="ExportType\Entity\TableEntity.cs" />
+    <Compile Include="ExportType\Entity\TableFieldEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

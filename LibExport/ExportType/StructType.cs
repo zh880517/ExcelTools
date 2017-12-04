@@ -10,9 +10,9 @@ namespace LibExport
         public string name;
         [XmlAttribute]
         public string sep;
-        [XmlArray]
+        [XmlArray("base")]
         public List<StructBaseField> baseFields;
-        [XmlArray]
+        [XmlArray("list")]
         public List<StructListField> listFields;
     }
 }

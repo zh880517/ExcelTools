@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace LibExport
 {
-    [XmlType(TypeName = "root")]
+    [XmlRoot("root")]
     public class ExportRoot
     {
         [XmlArray("CommonStruct")]
