@@ -21,8 +21,23 @@ namespace LibExport
         {
             name = (string)xml.Attribute("name");
             type = (string)xml.Attribute("type");
-            return string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(type);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                ErrorMessage.Error("{0}属性缺少或者为空 : {1}","name", xml.ToString());
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
+                return false;
+            }
+            return true;
         }
+    }
+
+    public class StructExtenFieldEntity : StructFieldEntity
+    {
+
     }
 
     public class StructBaseFieldEntity : StructFieldEntity
@@ -39,7 +54,16 @@ namespace LibExport
             if (base.FromXml(xml))
             {
                 sep = (string)xml.Attribute("sep");
-                return !string.IsNullOrEmpty(sep) && sep.Length == 1;
+                if (string.IsNullOrEmpty(sep))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "sep", xml.ToString());
+                    return false;
+                }
+                if (sep.Length == 1)
+                {
+                    ErrorMessage.Error("{0}属性只能是一个字符 : {1}", "sep", xml.ToString());
+                    return false;
+                }
             }
             return false;
         }

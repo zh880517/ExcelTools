@@ -6,7 +6,7 @@ namespace LibExport
     public class TableFieldEntity
     {
         protected string name;
-        private TableEntity parent;
+        protected TableEntity parent;
         public string Name { get { return name; } }
         public TableEntity Parent { get { return parent; } }
 
@@ -19,7 +19,12 @@ namespace LibExport
         public virtual bool FromXml(XElement xml)
         {
             name = (string)xml.Attribute("name");
-            return string.IsNullOrWhiteSpace(name);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "name", xml.ToString());
+                return false;
+            }
+            return true;
         }
     }
 
@@ -37,7 +42,16 @@ namespace LibExport
             {
                 index = (string)xml.Attribute("index");
                 type = (string)xml.Attribute("type");
-                return !string.IsNullOrWhiteSpace(index) && !string.IsNullOrWhiteSpace(type);
+                if (string.IsNullOrWhiteSpace(index))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "index", xml.ToString());
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(type))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
+                    return false;
+                }
             }
             return false;
         }
@@ -52,7 +66,16 @@ namespace LibExport
             if (base.FromXml(xml))
             {
                 sep = (string)xml.Attribute("sep");
-                return !string.IsNullOrEmpty(sep) && sep.Length == 1;
+                if (string.IsNullOrEmpty(sep))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "sep", xml.ToString());
+                    return false;
+                }
+                if (sep.Length == 1)
+                {
+                    ErrorMessage.Error("{0}属性只能是一个字符 : {1}", "sep", xml.ToString());
+                    return false;
+                }
             }
             return false;
         }
@@ -72,15 +95,24 @@ namespace LibExport
                 type = (string)xml.Attribute("type");
                 var elements = xml.Elements();
                 itemFields = elements.Where(obj=>obj.Name == "item" && obj.Attribute("index") != null).Select(obj => (string)obj.Attribute("index")).ToArray();
-                return !string.IsNullOrWhiteSpace(type) && itemFields.Length > 0;
+                if (string.IsNullOrWhiteSpace(type))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
+                    return false;
+                }
+                if (itemFields.Length == 0)
+                {
+                    ErrorMessage.Error("缺少item子节点 : {1}", xml.ToString());
+                    return false;
+                }
             }
             return false;
         }
     }
 
-    public class TableMixListField : TableMixFieldEntity
+    public class TableMixListFieldEntity : TableMixFieldEntity
     {
-        private bool ignoreNull;
+        protected bool ignoreNull;
         public bool IgnoreNull { get { return ignoreNull; } }
         public override bool FromXml(XElement xml)
         {
@@ -93,13 +125,13 @@ namespace LibExport
         }
     }
 
-    public class TableMapField : TableFieldEntity
+    public class TableMapFieldEntity : TableFieldEntity
     {
-        private string index;
-        private string keyType;
-        private string valueType;
-        private string sep;
-        private string kvSep;
+        protected string index;
+        protected string keyType;
+        protected string valueType;
+        protected string sep;
+        protected string kvSep;
 
         public string Index { get { return index; } }
         public string KeyType { get { return keyType; } }
@@ -116,14 +148,85 @@ namespace LibExport
                 valueType = (string)xml.Attribute("valuetype");
                 sep = (string)xml.Attribute("sep");
                 kvSep = (string)xml.Attribute("kvsep");
-                return !string.IsNullOrWhiteSpace(index) 
-                    && !string.IsNullOrWhiteSpace(keyType)
-                    && !string.IsNullOrWhiteSpace(valueType)
-                    && !string.IsNullOrEmpty(sep)
-                    && !string.IsNullOrEmpty(kvSep)
-                    && sep != kvSep;
+                if (string.IsNullOrWhiteSpace(index))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "index", xml.ToString());
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(keyType))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "keytype", xml.ToString());
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(valueType))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "valuetype", xml.ToString());
+                    return false;
+                }
+                if (string.IsNullOrEmpty(sep))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "sep", xml.ToString());
+                    return false;
+                }
+                if (string.IsNullOrEmpty(kvSep))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "kvsep", xml.ToString());
+                    return false;
+                }
             }
             return false;
+        }
+    }
+
+    public class TableExtenFieldEntity : TableFieldEntity
+    {
+        protected string type;
+        public string Type { get { return type; } }
+        public override bool FromXml(XElement xml)
+        {
+            if (base.FromXml(xml))
+            {
+                type = (string)xml.Attribute("type");
+                if (string.IsNullOrWhiteSpace(type))
+                {
+                    ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
+
+    public class TableKeyFieldEntity
+    {
+        protected string index;
+        protected string type;
+        protected TableEntity parent;
+        public string Index { get { return index; } }
+        public string Type { get { return type; } }
+        public TableEntity Parent { get { return parent; } }
+
+        public void SetParent(TableEntity parent)
+        {
+            if (this.parent == null)
+                this.parent = parent;
+        }
+
+        public bool FromXml(XElement xml)
+        {
+            type = (string)xml.Attribute("type");
+            index = (string)xml.Attribute("index");
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(index))
+            {
+                ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "index", xml.ToString());
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorMessage.cs" />
+    <Compile Include="ExportType\Entity\RowTableEntity.cs" />
     <Compile Include="ExportType\Entity\StructEntity.cs" />
     <Compile Include="ExportType\Entity\StructFieldEntity.cs" />
     <Compile Include="ExportType\ExportRoot.cs" />
-    <Compile Include="ExportType\StructType.cs" />
-    <Compile Include="ExportType\RowTable.cs" />
     <Compile Include="ExportType\Entity\TableEntity.cs" />
     <Compile Include="ExportType\Entity\TableFieldEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

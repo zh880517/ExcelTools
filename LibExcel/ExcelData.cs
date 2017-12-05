@@ -27,6 +27,24 @@ namespace LibExcel
             return result;
         }
 
+        public void ReadSheet(HashSet<string> sheets)
+        {
+            using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    do
+                    {
+                        if (sheets .Contains(reader.Name)&& !data.ContainsKey(reader.Name))
+                        {
+                            SheetData sheet = new SheetData(reader);
+                            data.Add(sheet.Name, sheet);
+                        }
+                    } while (reader.NextResult());
+                }
+            }
+        }
+
         public void ReadAll()
         {
             using (var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read))
