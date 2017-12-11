@@ -16,7 +16,7 @@ namespace LibExport
                 this.parent = parent;
         }
 
-        public virtual bool FromXml(XElement xml)
+        internal virtual bool FromXml(XElement xml)
         {
             name = (string)xml.Attribute("name");
             if (string.IsNullOrWhiteSpace(name))
@@ -36,7 +36,7 @@ namespace LibExport
         public string Index { get { return index; } }
         public string Type { get { return type; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -61,7 +61,7 @@ namespace LibExport
         protected string sep;
         public string Sep { get { return sep; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -88,7 +88,7 @@ namespace LibExport
         public string Type { get { return type; } }
         public string[] ItemFields { get { return itemFields; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -114,7 +114,7 @@ namespace LibExport
     {
         protected bool ignoreNull;
         public bool IgnoreNull { get { return ignoreNull; } }
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -139,7 +139,7 @@ namespace LibExport
         public string Sep { get { return sep; } }
         public string KvSep { get { return kvSep; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -182,7 +182,7 @@ namespace LibExport
     {
         protected string type;
         public string Type { get { return type; } }
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {
@@ -212,7 +212,7 @@ namespace LibExport
                 this.parent = parent;
         }
 
-        public bool FromXml(XElement xml)
+        internal bool FromXml(XElement xml)
         {
             type = (string)xml.Attribute("type");
             index = (string)xml.Attribute("index");

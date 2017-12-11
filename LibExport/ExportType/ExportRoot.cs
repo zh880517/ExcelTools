@@ -17,6 +17,8 @@ namespace LibExport
 
         public bool FromXml(string fileName)
         {
+            structs.Clear();
+            tables.Clear();
             fullfileName = Path.GetFullPath(fileName);
             XDocument doc = XDocument.Load(fullfileName);
             var root = doc.Element("Root");
@@ -39,8 +41,71 @@ namespace LibExport
             var table = root.Element("Table");
             foreach (var el in table.Elements())
             {
+                TableEntity tb = null;
+                if (el.Name == "Row")
+                {
+                    tb = new RowTableEntity();
+                } 
+                else if(el.Name == "Column")
+                {
+                    tb = new ColumnTableEntity();
+                }
+                else
+                {
+                    continue;
+                }
+                if (!tb.FromXml(el))
+                {
+                    ErrorMessage.Error("xml文件{0}", fullfileName);
+                    return false;
+                }
+                if (tables.Exists(obj=>obj.Name == tb.Name))
+                {
+                    ErrorMessage.Error("xml文件{0}含有同名的 Table {1} {2}", fullfileName, tb.Name, el.ToString());
+                    return false;
+                }
+                tables.Add(tb);
             }
             return true;
+        }
+
+        public StructEntity GetStruct(string name)
+        {
+            return structs.Find(obj => obj.Name == name);
+        }
+
+        public TableEntity GetTable(string name)
+        {
+            return tables.Find(obj => obj.Name == name);
+        }
+
+        public void SetExcelPath(string path)
+        {
+            path = Path.GetFullPath(path);
+            foreach (var tb in tables)
+            {
+                tb.UpdateExcelPath(path);
+            }
+        }
+
+        /// <summary>
+        /// 获取需要读取的excel表的全路径和excel表需要读取的sheet
+        /// 如果配置表和excel表不在同一个目录，需要先调用SetExcelPath设置excel表所在的目录
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, HashSet<string>> GetExcelInfor()
+        {
+            Dictionary<string, HashSet<string>> result = new Dictionary<string, HashSet<string>>();
+            foreach (var tb in tables)
+            {
+                if (!result.TryGetValue(tb.Name, out HashSet<string> sheets))
+                {
+                    sheets = new HashSet<string>();
+                    result.Add(tb.Name, sheets);
+                }
+                sheets.Add(tb.Sheet);
+            }
+            return result;
         }
     }
 }

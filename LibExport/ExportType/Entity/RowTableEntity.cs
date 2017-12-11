@@ -8,7 +8,7 @@ namespace LibExport
         protected List<TableKeyFieldEntity> keys = new List<TableKeyFieldEntity>();
         public List<TableKeyFieldEntity> Keys { get { return keys; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {

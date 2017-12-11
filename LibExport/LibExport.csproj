@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorMessage.cs" />
+    <Compile Include="ExportType\Entity\ColumnTableEntity.cs" />
     <Compile Include="ExportType\Entity\RowTableEntity.cs" />
     <Compile Include="ExportType\Entity\StructEntity.cs" />
     <Compile Include="ExportType\Entity\StructFieldEntity.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="ExportType\Entity\TableFieldEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ExportData\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

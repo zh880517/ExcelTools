@@ -17,7 +17,7 @@ namespace LibExport
                 this.parent = parent;
         }
 
-        public virtual bool FromXml(XElement xml)
+        internal virtual bool FromXml(XElement xml)
         {
             name = (string)xml.Attribute("name");
             type = (string)xml.Attribute("type");
@@ -49,7 +49,7 @@ namespace LibExport
         protected string sep;
         public string Sep { get { return sep; } }
 
-        public override bool FromXml(XElement xml)
+        internal override bool FromXml(XElement xml)
         {
             if (base.FromXml(xml))
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 
 namespace LibExport
@@ -22,7 +23,7 @@ namespace LibExport
 
         public List<TableFieldEntity> Fields { get { return fields; } }
 
-        public virtual bool FromXml(XElement xml)
+        internal virtual bool FromXml(XElement xml)
         {
             name = (string)xml.Attribute("name");
             excel = (string)xml.Attribute("excel");
@@ -110,6 +111,11 @@ namespace LibExport
                 return false;
             }
             return true;
+        }
+
+        internal void UpdateExcelPath(string curPath)
+        {
+            excel = Path.GetFullPath(Path.Combine(curPath, excel));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LibExport
         public string Sep { get { return sep; } }
         public List<StructFieldEntity> Fields { get { return fields; } }
 
-        public bool FromXml(XElement xml)
+        internal bool FromXml(XElement xml)
         {
             name = (string)xml.Attribute("name");
             sep = (string)xml.Attribute("sep");

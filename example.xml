@@ -7,7 +7,7 @@
         </Struct>
     </CommonStruct>
     <Table>
-        <RowTable name="rowTable" excel="excle" sheet="sheet" keyrow="1" datarow="2" reference="">
+        <Row name="rowTable" excel="excle" sheet="sheet" keyrow="1" datarow="2" reference="">
             <key index="index" type="type"/>
             <base name="base" index="index" type="type"/>
             <list name="list" index="" type="ttt" sep=","/>
@@ -19,6 +19,6 @@
             </mix>
             <map name="map" index="index" keytype="kt" valuetype="vt" sep=":" kvsep="_"/>
             <exten name="exten" type="int"/>
-        </RowTable>
+        </Row>
     </Table>
 </Root>
