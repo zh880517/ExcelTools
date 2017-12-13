@@ -27,9 +27,10 @@ namespace LibExport
             return sb.ToString();
         }
 
-//         public static string XmlLineInfor(this XElement xml)
-//         {
-//             return string.Format("in line{0}, ", xml.LineNumber, );
-//         }
+        public static StringBuilder AppendTable(this StringBuilder sb, int tableNum)
+        {
+            return sb.Append(' ', tableNum);
+        }
+        
     }
 }

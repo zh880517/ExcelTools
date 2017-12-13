@@ -13,14 +13,15 @@ namespace Test
 {
     class Test
     {
-        public DateTime Key;
+        public List<int> Key = new List<int>();
     }
     class Program
     {
         static void Main(string[] args)
         {
             Test t = new Test();
-            t.Key = DateTime.Now;
+            t.Key.Add(1);
+            t.Key.Add(2);
             string json = JsonConvert.SerializeObject(t);
 
             var ne = JsonConvert.DeserializeObject<Test>(json);
