@@ -1,6 +1,6 @@
 ﻿namespace LibExport
 {
-    public class StringValue :IValue
+    public class StringValue : IKeyType
     {
         protected string value;
 
@@ -19,6 +19,16 @@
         public string ToLua(int tableNum)
         {
             return string.Format("\"{0}\"", value);
+        }
+
+        public string ToJsonKey()
+        {
+            return string.Format("\"{0}\"", value);
+        }
+
+        public string ToLuaKey()
+        {
+            return value;
         }
     }
 }

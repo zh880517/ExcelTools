@@ -1,19 +1,32 @@
 ﻿namespace LibExport
 {
-    public class NumberValue : StringValue
+    public class NumberValue : IKeyType
     {
-        public NumberValue(string value) : base(value)
+        private string value;
+        public string Value { get { return value; } }
+        public NumberValue(string value)
         {
+            this.value = value;
         }
 
-        public new string ToJson(int tableNum)
+        public string ToJson(int tableNum)
         {
             return value;
         }
 
-        public new string ToLua(int tableNum)
+        public string ToLua(int tableNum)
         {
             return value;
+        }
+
+        public string ToJsonKey()
+        {
+            return string.Format("\"{0}\"", value);
+        }
+
+        public string ToLuaKey()
+        {
+            return string.Format("[{0}]", value);
         }
     }
 }

@@ -5,9 +5,9 @@ namespace LibExport
 {
     public class MapValue : IValue
     {
-        protected Dictionary<StringValue, IValue> values = new Dictionary<StringValue, IValue>();
+        protected Dictionary<IKeyType, IValue> values = new Dictionary<IKeyType, IValue>();
 
-        public void Add(StringValue key, IValue value)
+        public void Add(IKeyType key, IValue value)
         {
             values.Add(key, value);
         }
@@ -16,12 +16,17 @@ namespace LibExport
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
+            int count = 0;
             foreach (var kv in values)
             {
-                sb.AppendLine().AppendFormat("\"{0}\" = ", kv.Key);
-                sb.Append(kv.Value.ToJson(tableNum + 1)).Append(',');
+                sb.NewLine();
+                sb.AppendTable(tableNum + 1);
+                sb.AppendFormat("{0} : ", kv.Key.ToJsonKey());
+                sb.Append(kv.Value.ToJson(tableNum + 1));
+                if (++count < values.Count)
+                    sb.Append(',');
             }
-            sb.AppendLine();
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append('}');
             return sb.ToString();
@@ -31,12 +36,17 @@ namespace LibExport
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
+            int count = 0;
             foreach (var kv in values)
             {
-                sb.AppendLine().AppendFormat("[{0}] = ", kv.Key);
-                sb.Append(kv.Value.ToJson(tableNum + 1)).Append(',');
+                sb.NewLine();
+                sb.AppendTable(tableNum + 1);
+                sb.AppendFormat("{0} = ", kv.Key.ToLuaKey());
+                sb.Append(kv.Value.ToLua(tableNum + 1));
+                if (++count < values.Count)
+                    sb.Append(',');
             }
-            sb.AppendLine();
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append('}');
             return sb.ToString();

@@ -18,14 +18,16 @@ namespace LibExport
             StringBuilder sb = new StringBuilder();
             sb.Append('[');
             bool needNewLine = values.Exists(obj => !(obj is StringValue || obj is NumberValue || obj is BoolValue));
+            int count = 0;
             foreach (var val in values)
             {
                 if (needNewLine)
-                    sb.AppendLine().AppendTable(tableNum + 1);
+                    sb.NewLine().AppendTable(tableNum + 1);
                 sb.Append(val.ToJson(tableNum+1));
-                sb.Append(',');
+                if (++count < values.Count)
+                    sb.Append(',');
             }
-            sb.AppendLine();
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append(']');
             return sb.ToString();
@@ -36,14 +38,16 @@ namespace LibExport
             StringBuilder sb = new StringBuilder();
             sb.Append('{');
             bool needNewLine = values.Exists(obj => !(obj is StringValue || obj is NumberValue || obj is BoolValue));
+            int count = 0;
             foreach (var val in values)
             {
                 if (needNewLine)
-                    sb.AppendLine().AppendTable(tableNum + 1);
-                sb.Append(val.ToJson(tableNum + 1));
-                sb.Append(',');
+                    sb.NewLine().AppendTable(tableNum + 1);
+                sb.Append(val.ToLua(tableNum + 1));
+                if (++count < values.Count)
+                    sb.Append(','); ;
             }
-            sb.AppendLine();
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append('}');
             return sb.ToString();

@@ -29,8 +29,13 @@ namespace LibExport
 
         public static StringBuilder AppendTable(this StringBuilder sb, int tableNum)
         {
-            return sb.Append(' ', tableNum);
+            return sb.Append(' ', tableNum*4);
         }
         
+        public static StringBuilder NewLine(this StringBuilder sb)
+        {
+            return sb.Append('\n');
+        }
+
     }
 }

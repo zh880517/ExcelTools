@@ -16,12 +16,16 @@ namespace LibExport
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
+            int count = 0;
             foreach (var kv in fields)
             {
-                sb.AppendLine().AppendFormat("\"{0}\" = ", kv.Key);
-                sb.Append(kv.Value.ToJson(tableNum + 1)).Append(',');
+                sb.NewLine().AppendTable(tableNum + 1);
+                sb.AppendFormat("\"{0}\" : ", kv.Key);
+                sb.Append(kv.Value.ToJson(tableNum + 1));
+                if (++count < fields.Count)
+                    sb.Append(',');
             }
-            sb.AppendLine();
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append('}');
             return sb.ToString();
@@ -31,12 +35,16 @@ namespace LibExport
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
+            int count = 0;
             foreach (var kv in fields)
             {
-                sb.AppendLine().AppendFormat("{0} = ", kv.Key);
-                sb.Append(kv.Value.ToJson(tableNum + 1)).Append(',');
-            }
-            sb.AppendLine();
+                sb.NewLine().AppendTable(tableNum + 1);
+                sb.AppendFormat("{0} = ", kv.Key);
+                sb.Append(kv.Value.ToLua(tableNum + 1));
+                if (++count < fields.Count)
+                    sb.Append(',');
+            };
+            sb.NewLine();
             sb.AppendTable(tableNum);
             sb.Append('}');
             return sb.ToString();
