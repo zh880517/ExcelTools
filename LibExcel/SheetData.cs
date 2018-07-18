@@ -1,5 +1,6 @@
 ﻿using ExcelDataReader;
 using System.Collections.Generic;
+using System.Text;
 
 namespace LibExcel
 {
@@ -45,6 +46,16 @@ namespace LibExcel
                 return data[row][col];
             }
             return null;
+        }
+
+        public string ToCSV(char sep = ',')
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var row in data)
+            {
+                sb.AppendJoin(sep, row).Append('\n');
+            }
+            return sb.ToString();
         }
     }
 }
