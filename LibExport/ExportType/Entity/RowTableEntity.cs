@@ -19,12 +19,12 @@ namespace LibExport
                         TableKeyFieldEntity key = new TableKeyFieldEntity();
                         if (!key.FromXml(xml))
                         {
-                            ErrorMessage.Error("解析 Table:{0}时出错", name);
+                            ErrorMessage.Error("解析 Table:{0}时出错", Name);
                             return false;
                         }
                         if (keys.Exists(obj=>obj.Index == key.Index))
                         {
-                            ErrorMessage.Error("解析 Table:{0}时出错 : 有相同index {1} 的key节点 {2}", name, key.Index, xml.ToString());
+                            ErrorMessage.Error("解析 Table:{0}时出错 : 有相同index {1} 的key节点 {2}", Name, key.Index, xml.ToString());
                             return false;
                         }
                         keys.Add(key);

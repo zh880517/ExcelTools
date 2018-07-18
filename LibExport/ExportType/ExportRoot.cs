@@ -7,11 +7,10 @@ namespace LibExport
 {
     public class ExportRoot
     {
-        private string fullfileName;
         protected List<StructEntity> structs = new List<StructEntity>();
         protected List<TableEntity> tables = new List<TableEntity>();
 
-        public string FileName { get { return fullfileName; } }
+        public string FileName { get; private set; }
         public List<StructEntity> Structs { get { return structs; } }
         public List<TableEntity> Tables { get { return tables; } }
 
@@ -19,8 +18,8 @@ namespace LibExport
         {
             structs.Clear();
             tables.Clear();
-            fullfileName = Path.GetFullPath(fileName);
-            XDocument doc = XDocument.Load(fullfileName);
+            FileName = Path.GetFullPath(fileName);
+            XDocument doc = XDocument.Load(FileName);
             var root = doc.Element("Root");
             var commonStruct = root.Element("CommonStruct");
             foreach (var el in commonStruct.Elements("Struct"))
@@ -28,12 +27,12 @@ namespace LibExport
                 StructEntity st = new StructEntity();
                 if (!st.FromXml(el))
                 {
-                    ErrorMessage.Error("xml文件{0}", fullfileName);
+                    ErrorMessage.Error("xml文件{0}", FileName);
                     return false;
                 }
                 if (structs.Exists(obj=>obj.Name == st.Name))
                 {
-                    ErrorMessage.Error("xml文件{0}含有同名的 Struct {1} {2}", fullfileName, st.Name, el.ToString());
+                    ErrorMessage.Error("xml文件{0}含有同名的 Struct {1} {2}", FileName, st.Name, el.ToString());
                     return false;
                 }
                 structs.Add(st);
@@ -56,12 +55,12 @@ namespace LibExport
                 }
                 if (!tb.FromXml(el))
                 {
-                    ErrorMessage.Error("xml文件{0}", fullfileName);
+                    ErrorMessage.Error("xml文件{0}", FileName);
                     return false;
                 }
                 if (tables.Exists(obj=>obj.Name == tb.Name))
                 {
-                    ErrorMessage.Error("xml文件{0}含有同名的 Table {1} {2}", fullfileName, tb.Name, el.ToString());
+                    ErrorMessage.Error("xml文件{0}含有同名的 Table {1} {2}", FileName, tb.Name, el.ToString());
                     return false;
                 }
                 tables.Add(tb);

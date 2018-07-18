@@ -2,31 +2,30 @@
 {
     public class NumberValue : IKeyType
     {
-        private string value;
-        public string Value { get { return value; } }
+        public string Value { get; private set; }
         public NumberValue(string value)
         {
-            this.value = value;
+            Value = value;
         }
 
         public string ToJson(int tableNum)
         {
-            return value;
+            return Value;
         }
 
         public string ToLua(int tableNum)
         {
-            return value;
+            return Value;
         }
 
         public string ToJsonKey()
         {
-            return string.Format("\"{0}\"", value);
+            return string.Format("\"{0}\"", Value);
         }
 
         public string ToLuaKey()
         {
-            return string.Format("[{0}]", value);
+            return string.Format("[{0}]", Value);
         }
     }
 }

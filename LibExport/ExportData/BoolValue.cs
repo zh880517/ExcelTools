@@ -2,21 +2,22 @@
 {
     public class BoolValue : IValue
     {
-        protected bool value;
+
+        public bool Value { get; private set; }
 
         public BoolValue(bool value)
         {
-            this.value = value;
+            Value = value;
         }
 
         public string ToJson(int tableNum)
         {
-            return value ? "true" : "false";
+            return Value ? "true" : "false";
         }
 
         public string ToLua(int tableNum)
         {
-            return value ? "true" : "false";
+            return Value ? "true" : "false";
         }
     }
 }

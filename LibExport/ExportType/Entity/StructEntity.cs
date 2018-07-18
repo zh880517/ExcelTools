@@ -5,19 +5,17 @@ namespace LibExport
 {
     public class StructEntity
     {
-        protected string name;
-        protected string sep;
         protected List<StructFieldEntity> fields = new List<StructFieldEntity>();
 
-        public string Name { get { return name; } }
-        public string Sep { get { return sep; } }
+        public string Name { get; private set; }
+        public string Sep { get; private set; }
         public List<StructFieldEntity> Fields { get { return fields; } }
 
         internal bool FromXml(XElement xml)
         {
-            name = (string)xml.Attribute("name");
-            sep = (string)xml.Attribute("sep");
-            if (string.IsNullOrWhiteSpace(name))
+            Name = (string)xml.Attribute("name");
+            Sep = (string)xml.Attribute("sep");
+            if (string.IsNullOrWhiteSpace(Name))
             {
                 ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "name", xml.ToString());
                 return false;
@@ -44,19 +42,19 @@ namespace LibExport
                 field.SetParent(this);
                 if (!field.FromXml(el))
                 {
-                    ErrorMessage.Error("解析 Struct:{0}时出错", name);
+                    ErrorMessage.Error("解析 Struct:{0}时出错", Name);
                     return false;
                 }
                 if (fields.Exists(obj=>obj.Name == field.Name))
                 {
-                    ErrorMessage.Error("解析 Struct:{0}时出错 : 有相同名字 {1} 子节点 {2}", name, field.Name, xml.ToString());
+                    ErrorMessage.Error("解析 Struct:{0}时出错 : 有相同名字 {1} 子节点 {2}", Name, field.Name, xml.ToString());
                     return false;
                 }
                 fields.Add(field);
             }
             if (fields.Count == 0)
             {
-                ErrorMessage.Error("解析 Struct:{0}时出错:缺少field", name);
+                ErrorMessage.Error("解析 Struct:{0}时出错:缺少field", Name);
                 return false;
             }
             return true;

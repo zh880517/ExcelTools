@@ -4,29 +4,26 @@ namespace LibExport
 {
     public class StructFieldEntity
     {
-        protected string name;
-        protected string type;
-        private StructEntity parent;
-        public string Name { get { return name; } }
-        public string Type { get { return type; } }
-        public StructEntity Parent { get { return parent; } }
+        public string Name { get; private set; }
+        public string Type { get; private set; }
+        public StructEntity Parent { get; private set; }
 
         public void SetParent(StructEntity parent)
         {
-            if (this.parent == null)
-                this.parent = parent;
+            if (Parent == null)
+                Parent = parent;
         }
 
         internal virtual bool FromXml(XElement xml)
         {
-            name = (string)xml.Attribute("name");
-            type = (string)xml.Attribute("type");
-            if (string.IsNullOrWhiteSpace(name))
+            Name = (string)xml.Attribute("name");
+            Type = (string)xml.Attribute("type");
+            if (string.IsNullOrWhiteSpace(Name))
             {
                 ErrorMessage.Error("{0}属性缺少或者为空 : {1}","name", xml.ToString());
                 return false;
             }
-            if (string.IsNullOrWhiteSpace(type))
+            if (string.IsNullOrWhiteSpace(Type))
             {
                 ErrorMessage.Error("{0}属性缺少或者为空 : {1}", "type", xml.ToString());
                 return false;
