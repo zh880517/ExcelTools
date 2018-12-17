@@ -1,4 +1,6 @@
 ﻿using ExcelDataReader;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,9 +27,13 @@ namespace LibExcel
                 {
                     var val = reader.GetValue(i);
                     string strVal = "";
-                    if (val != null)
+                    if (val is DateTime)
                     {
-                        isNullRow = false;
+                        var fmt = reader.GetNumberFormatString(i);
+                        strVal = ((DateTime)val).ToString(fmt.Replace('h', 'H'));
+                    }
+                    else
+                    {
                         strVal = val.ToString();
                     }
                     row.Add(strVal);
@@ -56,6 +62,34 @@ namespace LibExcel
                 sb.AppendJoin(sep, row).Append('\n');
             }
             return sb.ToString();
+        }
+
+        public JObject ToJson()
+        {
+            JObject json = new JObject();
+            if (data.Count > 1)
+            {
+                var keyRow = data[0];
+                JArray array = new JArray();
+                for (int i=1; i<data.Count; ++i)
+                {
+                    var rowData = data[i];
+                    if (rowData[0] != null && rowData[0].StartsWith("#"))
+                        continue;
+                    JObject rowJson = new JObject();
+                    for (int j=0; j<keyRow.Count; ++j)
+                    {
+                        var key = keyRow[j];
+                        if (!string.IsNullOrWhiteSpace(key))
+                            continue;
+                        rowJson[key] = rowData[j];
+                    }
+                    array.Add(rowJson);
+                }
+                json.Add("Values", array);
+            }
+
+            return json;
         }
     }
 }

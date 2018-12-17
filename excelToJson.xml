@@ -1,0 +1,22 @@
+<root>
+  <type>
+    <item sep="">
+      <int name=""/>
+      <float name=""/>
+      <string name=""/>
+      <bool name=""/>
+      <list name ="" sep=""/>
+      <map name="" sep="" kvSep="" keyType="" valueType=""/>
+    </item>
+  </type>
+  <sheet name ="" keyCol="0" dataCol="2">
+    <int key ="" name=""/>
+    <float key ="" name=""/>
+    <string key ="" name=""/>
+    <bool key ="" name=""/>
+    <date key ="" name=""/>
+    <list key="" name ="" sep="" type="" start="" end="" allowNull="true"/>
+    <map key ="" name="" sep="" kvSep="" keyType="" valueType=""/>
+    <item key="" name=""/>
+  </sheet>
+</root>
