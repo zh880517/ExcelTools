@@ -2,21 +2,23 @@
 
 namespace ExcelToJson
 {
-    public class ListExportType : IExportType
+    public class ListType : IDataType
     {
         public char Separator;
-        public IExportType ElementType;
-        public JToken Export(string strVal)
+        public IDataType ElementType;
+
+        public JToken ToJson(string strVal, bool require)
         {
+            if (!require && string.IsNullOrEmpty(strVal))
+                return null;
             JArray array = new JArray();
             if (!string.IsNullOrEmpty(strVal))
             {
                 var results = strVal.Split(Separator);
                 foreach (var res in results)
                 {
-                    var token = ElementType.Export(res);
-                    if (token != null)
-                        array.Add(token);
+                    var token = ElementType.ToJson(res, true);
+                    array.Add(token);
                 }
             }
             return array;
