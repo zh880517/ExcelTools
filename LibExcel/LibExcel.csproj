@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExcelDataReader" Version="3.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
   </ItemGroup>
 
